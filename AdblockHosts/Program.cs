@@ -26,95 +26,19 @@ var trimmedDomains = new List<string>();
 
 async Task Mullvad()
 {
-    Console.WriteLine("Get oisd-big from https://big.oisd.nl");
-    domains = await new HttpClient().GetStringAsync("https://big.oisd.nl");
-    domains = domains.Replace("||", "").Replace("^", "");
-    domainList = domains.Split("\n").ToList();
+    Console.WriteLine("Get adblock list.");
+    domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_adblock.txt");
+    domainList = [.. domains.Split("\n")];
     AppendRecords(domainList);
 
-    Console.WriteLine();
-    Console.WriteLine("Get frellwits-swedish-hosts-file from https://raw.githubusercontent.com/lassekongo83/Frellwits-filter-lists/master/Frellwits-Swedish-Hosts-File.txt");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/lassekongo83/Frellwits-filter-lists/master/Frellwits-Swedish-Hosts-File.txt");
-    domains = domains.Replace("127.0.0.1 ", "");
-    domainList = domains.Split("\n").ToList();
+    Console.WriteLine("Get gambling list.");
+    domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_gambling.txt");
+    domainList = [.. domains.Split("\n")];
     AppendRecords(domainList);
 
-    Console.WriteLine("Get AdguardDNS from https://v.firebog.net/hosts/AdguardDNS.txt");
-    domains = await new HttpClient().GetStringAsync("https://v.firebog.net/hosts/AdguardDNS.txt");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine("Get gambling blocklists from https://raw.githubusercontent.com/blocklistproject/Lists/master/alt-version/gambling-nl.txt");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/blocklistproject/Lists/master/alt-version/gambling-nl.txt");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get firebog-easylist-privacy from https://v.firebog.net/hosts/Easyprivacy.txt");
-    domains = await new HttpClient().GetStringAsync("https://v.firebog.net/hosts/Easyprivacy.txt");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get windows-spy-blocker-spy from https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt");
-    domains = domains.Replace("0.0.0.0 ", "");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get perflyst-android-tracking from https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/android-tracking.txt");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/android-tracking.txt");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get telemetry-alexa from https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/alexa");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/alexa");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get telemetry-apple from https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/apple");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/apple");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get telemetry-huawei from https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/huawei");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/huawei");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get telemetry-samsung from https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/samsung");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/samsung");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get telemetry-sonos from https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/sonos");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/sonos");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get telemetry-windows from https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/windows");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/windows");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get telemetry-xiaomi from https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/xiaomi");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/xiaomi");
-    domainList = domains.Split("\n").ToList();
-    AppendRecords(domainList);
-
-    Console.WriteLine();
-    Console.WriteLine("Get malware content blocklist from https://urlhaus.abuse.ch/downloads/hostfile");
-    domains = await new HttpClient().GetStringAsync("https://urlhaus.abuse.ch/downloads/hostfile");
-    domains = domains.Replace("127.0.0.1\t", "").Replace("\r", "\n");
-    domainList = domains.Split("\n").ToList();
+    Console.WriteLine("Get privacy list.");
+    domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_privacy.txt");
+    domainList = [.. domains.Split("\n")];
     AppendRecords(domainList);
 }
 
@@ -122,7 +46,7 @@ async Task SteveBlack()
 {
     Console.WriteLine("Get Steven Black's unified hosts list + gambling from https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling/hosts");
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling/hosts");
-    domainList = domains.Split("\n").ToList();
+    domainList = [.. domains.Split("\n")];
     foreach (var domain in domainList)
         if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
             trimmedDomains.Add(domain.Split(' ')[1]);
@@ -137,7 +61,7 @@ switch (opt)
     case "2":
         Console.WriteLine("Get Steven Black's unified hosts list from https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts");
         domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts");
-        domainList = domains.Split("\n").ToList();
+        domainList = [.. domains.Split("\n")];
         foreach (var domain in domainList)
             if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
                 trimmedDomains.Add(domain.Split(' ')[1]);
