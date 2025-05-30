@@ -34,10 +34,10 @@ async Task Mullvad()
     domainList = [.. domains.Split("\n")];
     AppendRecords(domainList);
 
-    //Console.WriteLine("Get gambling list.");
-    //domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_gambling.txt");
-    //domainList = [.. domains.Split("\n")];
-    //AppendRecords(domainList);
+    Console.WriteLine("Get gambling list.");
+    domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_gambling.txt");
+    domainList = [.. domains.Split("\n")];
+    AppendRecords(domainList);
 
     Console.WriteLine("Get privacy list.");
     domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_privacy.txt");
