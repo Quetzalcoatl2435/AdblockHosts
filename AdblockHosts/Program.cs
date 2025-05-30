@@ -42,28 +42,45 @@ async Task Mullvad()
     AppendRecords(domainList);
 }
 
-async Task MullvadGambling()
+async Task MullvadAdult()
 {
-    Console.WriteLine("Get adblock list.");
-    domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_adblock.txt");
+    Console.WriteLine("Get adult list.");
+    domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_adult.txt");
     domainList = [.. domains.Split("\n")];
     AppendRecords(domainList);
+}
 
-    Console.WriteLine("Get gambling list."); //Warning: very large number of hosts!
+async Task MullvadGambling()
+{
+    Console.WriteLine("Get gambling list.");
     domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_gambling.txt");
     domainList = [.. domains.Split("\n")];
     AppendRecords(domainList);
+}
 
-    Console.WriteLine("Get privacy list.");
-    domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_privacy.txt");
+async Task MullvadSocial()
+{
+    Console.WriteLine("Get social list.");
+    domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_social.txt");
     domainList = [.. domains.Split("\n")];
     AppendRecords(domainList);
 }
 
 async Task SteveBlack()
 {
-    Console.WriteLine("Get Steven Black's unified hosts list from https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts");
+    Console.WriteLine("Get Steven Black's unified hosts list.");
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task SteveBlackFakeNews()
+{
+    Console.WriteLine("Get Steven Black's fakenews hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-only/hosts");
     domainList = [.. domains.Split("\n")];
     foreach (var domain in domainList)
         if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
@@ -73,8 +90,30 @@ async Task SteveBlack()
 
 async Task SteveBlackGambling()
 {
-    Console.WriteLine("Get Steven Black's unified hosts list + gambling from https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling/hosts");
-    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling/hosts");
+    Console.WriteLine("Get Steven Black's gambling hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-only/hosts");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task SteveBlackAdult()
+{
+    Console.WriteLine("Get Steven Black's adult hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn-only/hosts");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task SteveBlackSocial()
+{
+    Console.WriteLine("Get Steven Black's social hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/social-only/hosts");
     domainList = [.. domains.Split("\n")];
     foreach (var domain in domainList)
         if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
@@ -88,12 +127,16 @@ switch (opt)
         await Mullvad();
         break;
     case "2":
+        await Mullvad();
+        Console.WriteLine();
         await MullvadGambling();
         break;
     case "3":
         await SteveBlack();
         break;
     case "4":
+        await SteveBlack();
+        Console.WriteLine();
         await SteveBlackGambling();
         break;
     case "5":
@@ -104,15 +147,22 @@ switch (opt)
     case "6":
         await Mullvad();
         Console.WriteLine();
+        await SteveBlack();
+        Console.WriteLine();
         await SteveBlackGambling();
         break;
     default:
         Console.WriteLine("Customise sources:");
         Console.WriteLine("1. Mullvad (ads, trackers, malware)");
-        Console.WriteLine("2. Mullvad (gambling)");
-        Console.WriteLine("3. Steven Black's unified hosts (ads, malware)");
-        Console.WriteLine("4. Steven Black's unified hosts (ads, malware, gambling)");
-        Console.Write("Select source(s) [numbers, no spaces, e.g. 124]: ");
+        Console.WriteLine("2. Mullvad (adult)");
+        Console.WriteLine("3. Mullvad (gambling)");
+        Console.WriteLine("4. Mullvad (social)");
+        Console.WriteLine("5. Steven Black's unified hosts (ads, malware)");
+        Console.WriteLine("6. Steven Black's fakenews hosts");
+        Console.WriteLine("7. Steven Black's gambling hosts");
+        Console.WriteLine("8. Steven Black's adult hosts");
+        Console.WriteLine("9. Steven Black's social hosts");
+        Console.Write("Select source(s) [numbers, no spaces, e.g. 137]: ");
         opt = Console.ReadLine();
         foreach (char o in opt)
         {
@@ -123,13 +173,28 @@ switch (opt)
                     await Mullvad();
                     break;
                 case '2':
-                    await MullvadGambling();
+                    await MullvadAdult();
                     break;
                 case '3':
-                    await SteveBlack();
+                    await MullvadGambling();
                     break;
                 case '4':
+                    await MullvadSocial();
+                    break;
+                case '5':
+                    await SteveBlack();
+                    break;
+                case '6':
+                    await SteveBlackFakeNews();
+                    break;
+                case '7':
                     await SteveBlackGambling();
+                    break;
+                case '8':
+                    await SteveBlackAdult();
+                    break;
+                case '9':
+                    await SteveBlackSocial();
                     break;
             }
         }
