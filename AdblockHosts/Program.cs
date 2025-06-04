@@ -27,7 +27,6 @@ var opt = Console.ReadLine();
 Console.WriteLine();
 string domains;
 List<string> domainList;
-var trimmedDomains = new List<string>();
 
 async Task Mullvad()
 {
@@ -36,6 +35,7 @@ async Task Mullvad()
     domainList = [.. domains.Split("\n")];
     AppendRecords(domainList);
 
+    Console.WriteLine();
     Console.WriteLine("Get privacy list.");
     domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_privacy.txt");
     domainList = [.. domains.Split("\n")];
@@ -68,6 +68,7 @@ async Task MullvadSocial()
 
 async Task SteveBlack()
 {
+    var trimmedDomains = new List<string>();
     Console.WriteLine("Get Steven Black's unified hosts list.");
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts");
     domainList = [.. domains.Split("\n")];
@@ -79,6 +80,7 @@ async Task SteveBlack()
 
 async Task SteveBlackFakeNews()
 {
+    var trimmedDomains = new List<string>();
     Console.WriteLine("Get Steven Black's fakenews hosts list.");
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-only/hosts");
     domainList = [.. domains.Split("\n")];
@@ -90,6 +92,7 @@ async Task SteveBlackFakeNews()
 
 async Task SteveBlackGambling()
 {
+    var trimmedDomains = new List<string>();
     Console.WriteLine("Get Steven Black's gambling hosts list.");
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-only/hosts");
     domainList = [.. domains.Split("\n")];
@@ -101,6 +104,7 @@ async Task SteveBlackGambling()
 
 async Task SteveBlackAdult()
 {
+    var trimmedDomains = new List<string>();
     Console.WriteLine("Get Steven Black's adult hosts list.");
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn-only/hosts");
     domainList = [.. domains.Split("\n")];
@@ -112,6 +116,7 @@ async Task SteveBlackAdult()
 
 async Task SteveBlackSocial()
 {
+    var trimmedDomains = new List<string>();
     Console.WriteLine("Get Steven Black's social hosts list.");
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/social-only/hosts");
     domainList = [.. domains.Split("\n")];
