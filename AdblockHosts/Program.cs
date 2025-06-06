@@ -34,8 +34,10 @@ async Task Mullvad()
     domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_adblock.txt");
     domainList = [.. domains.Split("\n")];
     AppendRecords(domainList);
+}
 
-    Console.WriteLine();
+async Task MullvadTrackers()
+{
     Console.WriteLine("Get privacy list.");
     domains = await new HttpClient().GetStringAsync("https://github.com/mullvad/dns-blocklists/raw/main/output/doh/doh_privacy.txt");
     domainList = [.. domains.Split("\n")];
@@ -130,9 +132,13 @@ switch (opt)
 {
     case "1":
         await Mullvad();
+        Console.WriteLine();
+        await MullvadTrackers();
         break;
     case "2":
         await Mullvad();
+        Console.WriteLine();
+        await MullvadTrackers();
         Console.WriteLine();
         await MullvadGambling();
         break;
@@ -147,10 +153,14 @@ switch (opt)
     case "5":
         await Mullvad();
         Console.WriteLine();
+        await MullvadTrackers();
+        Console.WriteLine();
         await SteveBlack();
         break;
     case "6":
         await Mullvad();
+        Console.WriteLine();
+        await MullvadTrackers();
         Console.WriteLine();
         await SteveBlack();
         Console.WriteLine();
@@ -158,15 +168,16 @@ switch (opt)
         break;
     default:
         Console.WriteLine("Customise sources:");
-        Console.WriteLine("1. Mullvad (ads, trackers, malware)");
-        Console.WriteLine("2. Mullvad (adult)");
-        Console.WriteLine("3. Mullvad (gambling)");
-        Console.WriteLine("4. Mullvad (social)");
-        Console.WriteLine("5. Steven Black's unified hosts (ads, malware)");
-        Console.WriteLine("6. Steven Black's fakenews hosts");
-        Console.WriteLine("7. Steven Black's gambling hosts");
-        Console.WriteLine("8. Steven Black's adult hosts");
-        Console.WriteLine("9. Steven Black's social hosts");
+        Console.WriteLine("1. Mullvad (ads, malware)");
+        Console.WriteLine("2. Mullvad (trackers)");
+        Console.WriteLine("3. Mullvad (adult)");
+        Console.WriteLine("4. Mullvad (gambling)");
+        Console.WriteLine("5. Mullvad (social)");
+        Console.WriteLine("6. Steven Black's unified hosts (ads, malware)");
+        Console.WriteLine("7. Steven Black's fakenews hosts");
+        Console.WriteLine("8. Steven Black's gambling hosts");
+        Console.WriteLine("9. Steven Black's adult hosts");
+        Console.WriteLine("0. Steven Black's social hosts");
         Console.Write("Select source(s) [numbers, no spaces, e.g. 137]: ");
         opt = Console.ReadLine();
         foreach (char o in opt)
@@ -178,27 +189,30 @@ switch (opt)
                     await Mullvad();
                     break;
                 case '2':
-                    await MullvadAdult();
+                    await MullvadTrackers();
                     break;
                 case '3':
-                    await MullvadGambling();
+                    await MullvadAdult();
                     break;
                 case '4':
-                    await MullvadSocial();
+                    await MullvadGambling();
                     break;
                 case '5':
-                    await SteveBlack();
+                    await MullvadSocial();
                     break;
                 case '6':
-                    await SteveBlackFakeNews();
+                    await SteveBlack();
                     break;
                 case '7':
-                    await SteveBlackGambling();
+                    await SteveBlackFakeNews();
                     break;
                 case '8':
-                    await SteveBlackAdult();
+                    await SteveBlackGambling();
                     break;
                 case '9':
+                    await SteveBlackAdult();
+                    break;
+                case '0':
                     await SteveBlackSocial();
                     break;
             }
