@@ -87,7 +87,7 @@ async Task SteveBlackFakeNews()
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-only/hosts");
     domainList = [.. domains.Split("\n")];
     foreach (var domain in domainList)
-        if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
             trimmedDomains.Add(domain.Split(' ')[1]);
     AppendRecords(trimmedDomains);
 }
@@ -99,7 +99,7 @@ async Task SteveBlackGambling()
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-only/hosts");
     domainList = [.. domains.Split("\n")];
     foreach (var domain in domainList)
-        if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
             trimmedDomains.Add(domain.Split(' ')[1]);
     AppendRecords(trimmedDomains);
 }
@@ -111,7 +111,7 @@ async Task SteveBlackAdult()
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn-only/hosts");
     domainList = [.. domains.Split("\n")];
     foreach (var domain in domainList)
-        if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
             trimmedDomains.Add(domain.Split(' ')[1]);
     AppendRecords(trimmedDomains);
 }
@@ -123,7 +123,127 @@ async Task SteveBlackSocial()
     domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/social-only/hosts");
     domainList = [.. domains.Split("\n")];
     foreach (var domain in domainList)
-        if (domain.Length > 8 && domain[..8] == "0.0.0.0 " && domain.Split(' ')[1] != "0.0.0.0")
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task SteveBlackAdHoc()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get Steven Black's ad-hoc hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/StevenBlack/hosts/master/data/StevenBlack/hosts");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task AdAway()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get AdAway hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/AdAway/adaway.github.io/master/hosts.txt");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 10 && domain[..10] == "127.0.0.1 " && !string.IsNullOrEmpty(domain.Split(' ')[1]) && domain.Split(' ')[1] != "localhost")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task BaddBoyz()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get Mitchell Krog's Badd Boyz hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/mitchellkrogza/Badd-Boyz-Hosts/master/hosts");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task KADHosts()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get KADHosts list.");
+    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/FiltersHeroes/KADhosts/master/KADhosts.txt");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task MVPS()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get MVPS hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://winhelp2002.mvps.org/hosts.txt");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task someonewhocares()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get Dan Pollock – someonewhocares hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://someonewhocares.org/hosts/zero/hosts");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task TiuxoAds()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get Tiuxo hostlist - ads list.");
+    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/tiuxo/hosts/master/ads");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task UncheckyAds()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get UncheckyAds hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
+            trimmedDomains.Add(domain.Split(' ')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task URLHaus()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get URLHaus hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://urlhaus.abuse.ch/downloads/hostfile/");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 9 && domain[..9] == "127.0.0.1")
+            trimmedDomains.Add(domain.Split('\t')[1]);
+    AppendRecords(trimmedDomains);
+}
+
+async Task yoyo()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get yoyo.org hosts list.");
+    domains = await new HttpClient().GetStringAsync("https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&mimetype=plaintext&useip=0.0.0.0");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+        if (domain.Length > 8 && domain[..8] == "0.0.0.0 ")
             trimmedDomains.Add(domain.Split(' ')[1]);
     AppendRecords(trimmedDomains);
 }
@@ -178,7 +298,19 @@ switch (opt)
         Console.WriteLine("8. Steven Black's gambling hosts");
         Console.WriteLine("9. Steven Black's adult hosts");
         Console.WriteLine("0. Steven Black's social hosts");
-        Console.Write("Select source(s) [numbers, no spaces, e.g. 137]: ");
+        Console.WriteLine();
+        Console.WriteLine("Pick from Steven Black's sources:");
+        Console.WriteLine("a. Steven Black's ad-hoc list");
+        Console.WriteLine("b. AdAway");
+        Console.WriteLine("c. Mitchell Krog's Badd Boyz Hosts");
+        Console.WriteLine("d. KADHosts");
+        Console.WriteLine("e. MVPS");
+        Console.WriteLine("f. Dan Pollock – someonewhocares");
+        Console.WriteLine("g. Tiuxo hostlist - ads");
+        Console.WriteLine("h. UncheckyAds");
+        Console.WriteLine("i. URLHaus");
+        Console.WriteLine("j. yoyo.org");
+        Console.Write("Select source(s) [numbers, no spaces, e.g. 137b]: ");
         opt = Console.ReadLine();
         foreach (char o in opt)
         {
@@ -214,6 +346,36 @@ switch (opt)
                     break;
                 case '0':
                     await SteveBlackSocial();
+                    break;
+                case 'a':
+                    await SteveBlackAdHoc();
+                    break;
+                case 'b':
+                    await AdAway();
+                    break;
+                case 'c':
+                    await BaddBoyz();
+                    break;
+                case 'd':
+                    await KADHosts();
+                    break;
+                case 'e':
+                    await MVPS();
+                    break;
+                case 'f':
+                    await someonewhocares();
+                    break;
+                case 'g':
+                    await TiuxoAds();
+                    break;
+                case 'h':
+                    await UncheckyAds();
+                    break;
+                case 'i':
+                    await URLHaus();
+                    break;
+                case 'j':
+                    await yoyo();
                     break;
             }
         }
