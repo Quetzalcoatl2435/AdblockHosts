@@ -18,8 +18,7 @@ Console.WriteLine("Sources:");
 Console.WriteLine("1. Mullvad (ads, trackers, malware)");
 Console.WriteLine("2. Mullvad (ads, trackers, malware, gambling)");
 Console.WriteLine("3. Steven Black's unified hosts (ads, malware)");
-Console.WriteLine("4. Steven Black's unified hosts (ads, malware, gambling)");
-Console.WriteLine("5. Mullvad (ads, trackers, malware) + Steven Black's unified hosts list (ads, malware)");
+Console.WriteLine("4. Mullvad (ads, trackers, malware) + Steven Black's unified hosts list (ads, malware)");
 Console.WriteLine("_. Customise");
 Console.Write("Select source: ");
 var opt = Console.ReadLine();
@@ -265,11 +264,6 @@ switch (opt)
         await SteveBlack();
         break;
     case "4":
-        await SteveBlack();
-        Console.WriteLine();
-        await SteveBlackGambling();
-        break;
-    case "5":
         await Mullvad();
         Console.WriteLine();
         await MullvadTrackers();
