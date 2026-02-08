@@ -19,6 +19,8 @@ Console.WriteLine("1. Mullvad (ads, trackers, malware)");
 Console.WriteLine("2. Mullvad (ads, trackers, malware, gambling)");
 Console.WriteLine("3. Steven Black's unified hosts (ads, malware)");
 Console.WriteLine("4. Mullvad (ads, trackers, malware) + Steven Black's unified hosts list (ads, malware)");
+Console.WriteLine("5. Mullvad (ads, trackers, malware) + Steven Black's unified hosts list (ads, malware, fakenews, gambling)");
+Console.WriteLine("6. Mullvad (ads, trackers, malware) + Steven Black's unified hosts list (ads, malware, fakenews, gambling) + NoTrack (tracker, malware)");
 Console.WriteLine("_. Customise");
 Console.Write("Select source: ");
 var opt = Console.ReadLine();
@@ -246,6 +248,34 @@ async Task yoyo()
     AppendRecords(trimmedDomains);
 }
 
+async Task NoTrackTracker()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get NoTrack Tracker Blocklist.");
+    domains = await new HttpClient().GetStringAsync("https://gitlab.com/quidsup/notrack-blocklists/-/raw/master/trackers.list");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+    {
+        if (domain.Length > 2 && domain[0] != '#')
+            trimmedDomains.Add(domain);
+    }
+    AppendRecords(trimmedDomains);
+}
+
+async Task NoTrackMalware()
+{
+    var trimmedDomains = new List<string>();
+    Console.WriteLine("Get NoTrack Malware Blocklist.");
+    domains = await new HttpClient().GetStringAsync("https://gitlab.com/quidsup/notrack-blocklists/-/raw/master/malware.list");
+    domainList = [.. domains.Split("\n")];
+    foreach (var domain in domainList)
+    {
+        if (domain.Length > 2 && domain[0] != '#')
+            trimmedDomains.Add(domain);
+    }
+    AppendRecords(trimmedDomains);
+}
+
 switch (opt)
 {
     case "1":
@@ -270,6 +300,32 @@ switch (opt)
         Console.WriteLine();
         await SteveBlack();
         break;
+    case "5":
+        await Mullvad();
+        Console.WriteLine();
+        await MullvadTrackers();
+        Console.WriteLine();
+        await SteveBlack();
+        Console.WriteLine();
+        await SteveBlackFakeNews();
+        Console.WriteLine();
+        await SteveBlackGambling();
+        break;
+    case "6":
+        await Mullvad();
+        Console.WriteLine();
+        await MullvadTrackers();
+        Console.WriteLine();
+        await SteveBlack();
+        Console.WriteLine();
+        await SteveBlackFakeNews();
+        Console.WriteLine();
+        await SteveBlackGambling();
+        Console.WriteLine();
+        await NoTrackTracker();
+        Console.WriteLine();
+        await NoTrackMalware();
+        break;
     default:
         Console.WriteLine("Customise sources:");
         Console.WriteLine("1. Mullvad (ads, malware)");
@@ -282,18 +338,20 @@ switch (opt)
         Console.WriteLine("8. Steven Black's gambling hosts");
         Console.WriteLine("9. Steven Black's adult hosts");
         Console.WriteLine("0. Steven Black's social hosts");
+        Console.WriteLine("a. NoTrack Tracker Blocklist");
+        Console.WriteLine("b. NoTrack Malware Blocklist");
         Console.WriteLine();
         Console.WriteLine("Pick from Steven Black's sources:");
-        Console.WriteLine("a. Steven Black's ad-hoc list");
-        Console.WriteLine("b. AdAway");
-        Console.WriteLine("c. Mitchell Krog's Badd Boyz Hosts");
-        Console.WriteLine("d. KADHosts");
-        Console.WriteLine("e. MVPS");
-        Console.WriteLine("f. Dan Pollock – someonewhocares");
-        Console.WriteLine("g. Tiuxo hostlist - ads");
-        Console.WriteLine("h. UncheckyAds");
-        Console.WriteLine("i. URLHaus");
-        Console.WriteLine("j. yoyo.org");
+        Console.WriteLine("c. Steven Black's ad-hoc list");
+        Console.WriteLine("d. AdAway");
+        Console.WriteLine("e. Mitchell Krog's Badd Boyz Hosts");
+        Console.WriteLine("f. KADHosts");
+        Console.WriteLine("g. MVPS");
+        Console.WriteLine("h. Dan Pollock – someonewhocares");
+        Console.WriteLine("i. Tiuxo hostlist - ads");
+        Console.WriteLine("j. UncheckyAds");
+        Console.WriteLine("k. URLHaus");
+        Console.WriteLine("l. yoyo.org");
         Console.Write("Select source(s) [numbers, no spaces, e.g. 137b]: ");
         opt = Console.ReadLine();
         foreach (char o in opt)
@@ -332,33 +390,39 @@ switch (opt)
                     await SteveBlackSocial();
                     break;
                 case 'a':
-                    await SteveBlackAdHoc();
+                    await NoTrackTracker();
                     break;
                 case 'b':
-                    await AdAway();
+                    await NoTrackMalware();
                     break;
                 case 'c':
-                    await BaddBoyz();
+                    await SteveBlackAdHoc();
                     break;
                 case 'd':
-                    await KADHosts();
+                    await AdAway();
                     break;
                 case 'e':
-                    await MVPS();
+                    await BaddBoyz();
                     break;
                 case 'f':
-                    await someonewhocares();
+                    await KADHosts();
                     break;
                 case 'g':
-                    await TiuxoAds();
+                    await MVPS();
                     break;
                 case 'h':
-                    await UncheckyAds();
+                    await someonewhocares();
                     break;
                 case 'i':
-                    await URLHaus();
+                    await TiuxoAds();
                     break;
                 case 'j':
+                    await UncheckyAds();
+                    break;
+                case 'k':
+                    await URLHaus();
+                    break;
+                case 'l':
                     await yoyo();
                     break;
             }
