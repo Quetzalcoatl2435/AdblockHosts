@@ -1,4 +1,6 @@
-﻿Console.WriteLine("Update pihole adblock list.");
+﻿using System.Net;
+
+Console.WriteLine("Update pihole adblock list.");
 
 var adBlockDomains = new List<string>();
 
@@ -435,7 +437,19 @@ adBlockDomains.Remove("s.youtube.com"); //needed for youtube history
 Console.WriteLine("Number of entries: " + adBlockDomains.Count.ToString("N0"));
 Console.WriteLine("Number of entries (deduplicated): " + adBlockDomains.Distinct().Count().ToString("N0"));
 Console.WriteLine("Writing domains to file...");
+adBlockDomains.Sort();
+List<string> validIPs = [];
+foreach (var adBlockDomain in adBlockDomains)
+    if (IPAddress.TryParse(adBlockDomain, out IPAddress? address))
+        validIPs.Add(adBlockDomain);
 
+Console.WriteLine("Removing IP addresses...");
+foreach (var validIP in validIPs)
+{
+    Console.WriteLine(validIP);
+    adBlockDomains.Remove(validIP);
+}
+Console.WriteLine("Number of entries (deduplicated + IP truncated): " + adBlockDomains.Distinct().Count().ToString("N0"));
 File.WriteAllText("pihole_domain_list.txt", string.Join("\n", adBlockDomains.Distinct()));
 
 Console.WriteLine("Done!");
